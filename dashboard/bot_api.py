@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Configuration de l'API (à créer sur ton bot)
-BOT_API_URL = os.getenv('BOT_API_URL', 'http://localhost:5001')  # URL de ton bot sur Pella
-BOT_API_KEY = os.getenv('BOT_API_KEY', 'your-secret-key')  # Clé secrète pour sécuriser
+# Configuration de l'API du bot
+BOT_API_URL = os.getenv('BOT_API_URL', 'http://localhost:5001')
+BOT_API_KEY = os.getenv('BOT_API_KEY', 'your-secret-key')
 
 def get_bot_stats():
-    """Récupère les stats du bot via API"""
+    """Récupère les statistiques du bot"""
     try:
         response = requests.get(
             f"{BOT_API_URL}/api/stats",
@@ -18,8 +18,10 @@ def get_bot_stats():
         )
         if response.status_code == 200:
             return response.json()
-    except:
-        pass
+    except Exception as e:
+        print(f"Erreur API stats: {e}")
+    
+    # Données par défaut si l'API n'est pas disponible
     return {
         'servers': 0,
         'members': 0,
@@ -40,8 +42,9 @@ def get_moderation_actions(limit=10):
         )
         if response.status_code == 200:
             return response.json()
-    except:
-        pass
+    except Exception as e:
+        print(f"Erreur API moderation: {e}")
+    
     return []
 
 def get_active_giveaways():
@@ -54,6 +57,52 @@ def get_active_giveaways():
         )
         if response.status_code == 200:
             return response.json()
-    except:
-        pass
+    except Exception as e:
+        print(f"Erreur API giveaways: {e}")
+    
+    return []
+
+def end_giveaway(message_id):
+    """Termine un giveaway"""
+    try:
+        response = requests.post(
+            f"{BOT_API_URL}/api/giveaway/{message_id}/end",
+            headers={'X-API-Key': BOT_API_KEY},
+            timeout=5
+        )
+        return response.status_code == 200
+    except Exception as e:
+        print(f"Erreur API end giveaway: {e}")
+    
+    return False
+
+def get_servers():
+    """Récupère la liste des serveurs"""
+    try:
+        response = requests.get(
+            f"{BOT_API_URL}/api/servers",
+            headers={'X-API-Key': BOT_API_KEY},
+            timeout=5
+        )
+        if response.status_code == 200:
+            return response.json()
+    except Exception as e:
+        print(f"Erreur API servers: {e}")
+    
+    return []
+
+def get_logs(limit=100):
+    """Récupère les logs"""
+    try:
+        response = requests.get(
+            f"{BOT_API_URL}/api/logs",
+            params={'limit': limit},
+            headers={'X-API-Key': BOT_API_KEY},
+            timeout=5
+        )
+        if response.status_code == 200:
+            return response.json()
+    except Exception as e:
+        print(f"Erreur API logs: {e}")
+    
     return []
