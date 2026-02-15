@@ -19,11 +19,6 @@
             <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
                 <i class="fas fa-home"></i> Dashboard
             </a>
-            <!-- Pages temporairement désactivées
-            <a href="{{ url_for('moderation') }}"><i class="fas fa-shield-alt"></i> Modération</a>
-            <a href="{{ url_for('giveaways') }}"><i class="fas fa-gift"></i> Giveaways</a>
-            <a href="{{ url_for('logs') }}"><i class="fas fa-history"></i> Logs</a>
-            -->
             <a href="{{ url_for('logout') }}" class="btn btn-danger">Déconnexion</a>
             
             <div class="user-info">
