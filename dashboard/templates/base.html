@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard Paradise Bot{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+            <h1>Paradise Bot</h1>
+        </div>
+        
+        {% if current_user.is_authenticated %}
+        <div class="nav-menu">
+            <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="{{ url_for('servers') }}" class="{% if request.endpoint == 'servers' %}active{% endif %}">
+                <i class="fas fa-server"></i> Serveurs
+            </a>
+            <a href="{{ url_for('moderation') }}" class="{% if request.endpoint == 'moderation' %}active{% endif %}">
+                <i class="fas fa-shield-alt"></i> Modération
+            </a>
+            <a href="{{ url_for('giveaways') }}" class="{% if request.endpoint == 'giveaways' %}active{% endif %}">
+                <i class="fas fa-gift"></i> Giveaways
+            </a>
+            <a href="{{ url_for('logs') }}" class="{% if request.endpoint == 'logs' %}active{% endif %}">
+                <i class="fas fa-history"></i> Logs
+            </a>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Déconnexion</a>
+            
+            <div class="user-info">
+                <img src="{{ current_user.avatar }}" alt="Avatar" class="user-avatar">
+                <span>{{ current_user.username }}</span>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+    
+    <main class="container fade-in">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+    
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

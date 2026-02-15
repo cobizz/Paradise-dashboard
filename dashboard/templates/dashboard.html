@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Paradise Bot{% endblock %}
+
+{% block content %}
+<h1 style="margin-bottom: 2rem;">📊 Tableau de bord</h1>
+
+<div class="grid">
+    <div class="card">
+        <div class="card-title">Serveurs</div>
+        <div class="card-value">{{ stats.servers }}</div>
+        <div style="color: var(--light-color);">Nombre de serveurs</div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">Membres</div>
+        <div class="card-value">{{ stats.members }}</div>
+        <div style="color: var(--light-color);">Membres totaux</div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">Commandes</div>
+        <div class="card-value">{{ stats.commands }}</div>
+        <div style="color: var(--light-color);">Commandes exécutées</div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">Giveaways</div>
+        <div class="card-value">{{ stats.active_giveaways }}</div>
+        <div style="color: var(--light-color);">Giveaways actifs</div>
+    </div>
+</div>
+
+<div class="grid" style="margin-top: 2rem;">
+    <div class="card" style="grid-column: span 2;">
+        <h2 style="margin-bottom: 1rem;">📈 Activité récente</h2>
+        <canvas id="activityChart"></canvas>
+    </div>
+    
+    <div class="card">
+        <h2 style="margin-bottom: 1rem;">🛡️ Dernières actions</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Utilisateur</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for action in recent_actions %}
+                    <tr>
+                        <td>
+                            <span class="badge badge-{{ action.type }}">
+                                {{ action.type }}
+                            </span>
+                        </td>
+                        <td>{{ action.user }}</td>
+                        <td>{{ action.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 2rem;">
+    <h2 style="margin-bottom: 1rem;">🎉 Giveaways en cours</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Prix</th>
+                    <th>Participants</th>
+                    <th>Fin</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for giveaway in active_giveaways %}
+                <tr>
+                    <td>{{ giveaway.prize }}</td>
+                    <td>{{ giveaway.entrants }}</td>
+                    <td>{{ giveaway.end_time }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="endGiveaway('{{ giveaway.message_id }}')">
+                            Terminer
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ chart_labels | safe }},
+            datasets: [{
+                label: 'Actions de modération',
+                data: {{ chart_data | safe }},
+                borderColor: '#5865F2',
+                backgroundColor: 'rgba(88, 101, 242, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: 'white'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: 'white'
+                    }
+                }
+            }
+        }
+    });
+    
+    function endGiveaway(messageId) {
+        if (confirm('Voulez-vous vraiment terminer ce giveaway ?')) {
+            fetch(`/api/giveaway/${messageId}/end`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}
