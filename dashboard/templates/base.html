@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-brand">
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" onerror="this.style.display='none'">
             <h1>Paradise Bot</h1>
         </div>
         
@@ -19,9 +19,7 @@
             <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
                 <i class="fas fa-home"></i> Dashboard
             </a>
-            <a href="{{ url_for('servers') }}" class="{% if request.endpoint == 'servers' %}active{% endif %}">
-                <i class="fas fa-server"></i> Serveurs
-            </a>
+            <!-- Lien servers supprimé temporairement -->
             <a href="{{ url_for('moderation') }}" class="{% if request.endpoint == 'moderation' %}active{% endif %}">
                 <i class="fas fa-shield-alt"></i> Modération
             </a>
@@ -34,7 +32,7 @@
             <a href="{{ url_for('logout') }}" class="btn btn-danger">Déconnexion</a>
             
             <div class="user-info">
-                <img src="{{ current_user.avatar }}" alt="Avatar" class="user-avatar">
+                <img src="{{ current_user.avatar }}" alt="Avatar" class="user-avatar" onerror="this.src='{{ url_for('static', filename='img/default-avatar.png') }}'">
                 <span>{{ current_user.username }}</span>
             </div>
         </div>
