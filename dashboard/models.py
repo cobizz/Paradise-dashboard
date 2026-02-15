@@ -57,7 +57,7 @@ class GuildConfig(db.Model):
     # Auto-modération
     auto_mod_enabled = db.Column(db.Boolean, default=True)
     bad_words_enabled = db.Column(db.Boolean, default=True)
-    bad_words_action = db.Column(db.String(20), default='delete')  # delete, warn, mute
+    bad_words_action = db.Column(db.String(20), default='delete')
     invites_enabled = db.Column(db.Boolean, default=True)
     invites_action = db.Column(db.String(20), default='delete')
     caps_enabled = db.Column(db.Boolean, default=True)
@@ -122,7 +122,7 @@ class ModerationLog(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     guild_id = db.Column(db.String(80), nullable=False)
-    action_type = db.Column(db.String(50), nullable=False)  # warn, kick, ban, mute
+    action_type = db.Column(db.String(50), nullable=False)
     user_id = db.Column(db.String(80), nullable=False)
     user_name = db.Column(db.String(100))
     moderator_id = db.Column(db.String(80), nullable=False)
