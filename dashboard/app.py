@@ -4,14 +4,18 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
+# Ajouter le chemin parent pour trouver les modules
+sys.path.append(str(Path(__file__).parent.parent))
+
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, session
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
+from flask_sqlalchemy import SQLAlchemy
 import requests
 from dotenv import load_dotenv
 
-# Importer les modèles et l'API
-from models import db, User, GuildConfig, ModerationLog, Giveaway
-from api.config import config_api
+# Importer les modèles depuis le dossier courant
+from .models import db, User, GuildConfig, ModerationLog, Giveaway
+from .api.config import config_api
 
 load_dotenv()
 
@@ -130,9 +134,8 @@ def discord_callback():
     })
     guilds = guilds_response.json()
     
-    # Filtrer les serveurs où le bot est présent
-    bot_guilds = [str(g.id) for g in app.bot.guilds] if hasattr(app, 'bot') else []
-    user_guilds = [g for g in guilds if g['id'] in bot_guilds or (g['permissions'] & 0x8)]  # Admin
+    # Filtrer les serveurs où le bot est présent (à améliorer avec une vraie API)
+    user_guilds = [g for g in guilds if (g['permissions'] & 0x8)]  # Admin
     
     session['guilds'] = user_guilds
     
@@ -154,18 +157,18 @@ def dashboard():
     
     # Statistiques globales
     total_servers = len(guilds)
-    total_members = sum(g.get('approximate_member_count', 0) for g in guilds)
+    total_members = 0  # À récupérer via API
     
     stats = {
         'servers': total_servers,
         'members': total_members,
         'managed_servers': len([g for g in guilds if g.get('bot_in')]),
-        'active_giveaways': 0  # À récupérer depuis l'API
+        'active_giveaways': 0
     }
     
     return render_template('dashboard.html', 
                          stats=stats,
-                         guilds=guilds[:6])  # 6 premiers serveurs
+                         guilds=guilds[:6])
 
 @app.route('/dashboard/guild/<guild_id>')
 @login_required
