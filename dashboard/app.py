@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, session
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from dotenv import load_dotenv
@@ -21,7 +21,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # Modèles de base de données
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     discord_id = db.Column(db.String(80), unique=True, nullable=False)
     username = db.Column(db.String(80), nullable=False)
