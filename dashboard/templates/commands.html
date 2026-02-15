@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Commandes - Paradise Bot{% endblock %}
+
+{% block content %}
+<h1 style="font-size: 3rem; text-align: center; margin-bottom: 2rem;">📚 Commandes disponibles</h1>
+
+<div class="tabs">
+    <div class="tab active" onclick="showCategory('general')">📋 Général</div>
+    <div class="tab" onclick="showCategory('moderation')">🛡️ Modération</div>
+    <div class="tab" onclick="showCategory('giveaways')">🎉 Giveaways</div>
+    <div class="tab" onclick="showCategory('fun')">🎮 Fun</div>
+    <div class="tab" onclick="showCategory('images')">🖼️ Images</div>
+    <div class="tab" onclick="showCategory('utils')">🔧 Utilitaires</div>
+</div>
+
+<div id="general" class="category-content active">
+    <h2 style="margin-bottom: 1.5rem;">📋 Commandes générales</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Description</th>
+                    <th>Exemple</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>!aide</code></td>
+                    <td>Affiche le menu d'aide</td>
+                    <td><code>!aide moderation</code></td>
+                </tr>
+                <tr>
+                    <td><code>!ping</code></td>
+                    <td>Vérifie la latence du bot</td>
+                    <td><code>!ping</code></td>
+                </tr>
+                <tr>
+                    <td><code>!stats</code></td>
+                    <td>Affiche les statistiques</td>
+                    <td><code>!stats</code></td>
+                </tr>
+                <tr>
+                    <td><code>!botinfo</code></td>
+                    <td>Infos sur le bot</td>
+                    <td><code>!botinfo</code></td>
+                </tr>
+                <tr>
+                    <td><code>!invite</code></td>
+                    <td>Lien d'invitation</td>
+                    <td><code>!invite</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="moderation" class="category-content">
+    <h2 style="margin-bottom: 1.5rem;">🛡️ Commandes de modération</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Description</th>
+                    <th>Exemple</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>!warn @user [raison]</code></td>
+                    <td>Avertit un membre</td>
+                    <td><code>!warn @Jean Spam</code></td>
+                </tr>
+                <tr>
+                    <td><code>!kick @user [raison]</code></td>
+                    <td>Expulse un membre</td>
+                    <td><code>!kick @Jean Insultes</code></td>
+                </tr>
+                <tr>
+                    <td><code>!ban @user [raison]</code></td>
+                    <td>Bannit un membre</td>
+                    <td><code>!ban @Jean Racisme</code></td>
+                </tr>
+                <tr>
+                    <td><code>!mute @user [durée] [raison]</code></td>
+                    <td>Rend muet un membre</td>
+                    <td><code>!mute @Jean 10m Spam</code></td>
+                </tr>
+                <tr>
+                    <td><code>!clear [nb]</code></td>
+                    <td>Supprime des messages</td>
+                    <td><code>!clear 10</code></td>
+                </tr>
+                <tr>
+                    <td><code>!lock</code></td>
+                    <td>Verrouille le salon</td>
+                    <td><code>!lock</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Ajoute les autres catégories ici -->
+
+<style>
+.category-content {
+    display: none;
+}
+.category-content.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+</style>
+
+<script>
+function showCategory(category) {
+    // Cache toutes les catégories
+    document.querySelectorAll('.category-content').forEach(el => {
+        el.classList.remove('active');
+    });
+    
+    // Montre la catégorie sélectionnée
+    document.getElementById(category).classList.add('active');
+    
+    // Met à jour les tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+</script>
+{% endblock %}
