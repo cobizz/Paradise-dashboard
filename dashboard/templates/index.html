@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Paradise Bot{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Paradise Bot</h1>
+    <p>Le bot Discord ultime pour votre serveur : modération, giveaways, logs, fun et bien plus !</p>
+    <a href="{{ url_for('invite_page') }}" class="btn btn-primary btn-large pulse">
+        <i class="fab fa-discord"></i> Inviter le bot
+    </a>
+</div>
+
+<div class="features-grid">
+    <div class="feature-card fade-in-up">
+        <div class="feature-icon">🛡️</div>
+        <h3>Modération avancée</h3>
+        <p>Système de warns, kick, ban, mute temporaire, auto-modération avec détection d'insultes</p>
+        <ul style="text-align: left; color: var(--text-secondary);">
+            <li>✓ Warns avec seuils automatiques</li>
+            <li>✓ Mutes temporaires</li>
+            <li>✓ Auto-modération intelligente</li>
+            <li>✓ Logs détaillés</li>
+        </ul>
+    </div>
+    
+    <div class="feature-card fade-in-up" style="animation-delay: 0.1s">
+        <div class="feature-icon">🎉</div>
+        <h3>Giveaways</h3>
+        <p>Créez des giveaways interactifs avec boutons, rôles requis, et tirages automatiques</p>
+        <ul style="text-align: left; color: var(--text-secondary);">
+            <li>✓ Giveaways avec boutons</li>
+            <li>✓ Plusieurs gagnants</li>
+            <li>✓ Rôle requis optionnel</li>
+            <li>✓ Export des participants</li>
+        </ul>
+    </div>
+    
+    <div class="feature-card fade-in-up" style="animation-delay: 0.2s">
+        <div class="feature-icon">📊</div>
+        <h3>Logs complets</h3>
+        <p>Suivez tout ce qui se passe sur votre serveur avec des logs détaillés</p>
+        <ul style="text-align: left; color: var(--text-secondary);">
+            <li>✓ Messages supprimés/modifiés</li>
+            <li>✓ Connexions vocales</li>
+            <li>✓ Changements de rôles</li>
+            <li>✓ Actions de modération</li>
+        </ul>
+    </div>
+    
+    <div class="feature-card fade-in-up" style="animation-delay: 0.3s">
+        <div class="feature-icon">🎮</div>
+        <h3>Fun & Images</h3>
+        <p>Des commandes pour animer votre serveur et partager des images</p>
+        <ul style="text-align: left; color: var(--text-secondary);">
+            <li>✓ 8ball, dés, pile ou face</li>
+            <li>✓ Images de chats, chiens</li>
+            <li>✓ Memes aléatoires</li>
+            <li>✓ Sondages interactifs</li>
+        </ul>
+    </div>
+    
+    <div class="feature-card fade-in-up" style="animation-delay: 0.4s">
+        <div class="feature-icon">⚙️</div>
+        <h3>Configuration</h3>
+        <p>Personnalisez le bot selon vos besoins avec une configuration avancée</p>
+        <ul style="text-align: left; color: var(--text-secondary);">
+            <li>✓ Messages de bienvenue</li>
+            <li>✓ Rôles automatiques</li>
+            <li>✓ Channels de logs</li>
+            <li>✓ Préfixe personnalisable</li>
+        </ul>
+    </div>
+    
+    <div class="feature-card fade-in-up" style="animation-delay: 0.5s">
+        <div class="feature-icon">🔒</div>
+        <h3>Sécurité</h3>
+        <p>Protégez votre serveur avec des outils de modération puissants</p>
+        <ul style="text-align: left; color: var(--text-secondary);">
+            <li>✓ Anti-spam</li>
+            <li>✓ Anti-insultes</li>
+            <li>✓ Anti-invitations</li>
+            <li>✓ Protection des salons</li>
+        </ul>
+    </div>
+</div>
+
+<div style="text-align: center; margin: 4rem 0;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Prêt à améliorer votre serveur ?</h2>
+    <a href="{{ url_for('invite_page') }}" class="btn btn-primary btn-large">
+        <i class="fab fa-discord"></i> Inviter Paradise Bot
+    </a>
+</div>
+
+<div class="stats-grid" style="margin-top: 3rem;">
+    <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-value">50+</div>
+        <div class="stat-label">Commandes</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-value">99.9%</div>
+        <div class="stat-label">Uptime</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🛡️</div>
+        <div class="stat-value">1000+</div>
+        <div class="stat-label">Serveurs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">50k+</div>
+        <div class="stat-label">Membres</div>
+    </div>
+</div>
+{% endblock %}
