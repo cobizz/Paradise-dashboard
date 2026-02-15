@@ -3,33 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Dashboard Paradise Bot{% endblock %}</title>
+    <title>{% block title %}Paradise Bot - Dashboard{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <meta property="og:title" content="Paradise Bot">
+    <meta property="og:description" content="Le bot Discord ultime avec modération, giveaways et plus encore !">
+    <meta property="og:image" content="{{ url_for('static', filename='img/banner.png', _external=True) }}">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-brand">
-            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" onerror="this.style.display='none'">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Paradise Bot" onerror="this.src='https://via.placeholder.com/45'">
             <h1>Paradise Bot</h1>
         </div>
         
-        {% if current_user.is_authenticated %}
         <div class="nav-menu">
-            <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
-                <i class="fas fa-home"></i> Dashboard
+            <a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">
+                <i class="fas fa-home"></i> Accueil
             </a>
-            <a href="{{ url_for('logout') }}" class="btn btn-danger">Déconnexion</a>
+            <a href="{{ url_for('invite_page') }}" class="{% if request.endpoint == 'invite_page' %}active{% endif %}">
+                <i class="fas fa-plus-circle"></i> Inviter
+            </a>
+            <a href="{{ url_for('commands_page') }}" class="{% if request.endpoint == 'commands_page' %}active{% endif %}">
+                <i class="fas fa-terminal"></i> Commandes
+            </a>
             
-            <div class="user-info">
-                <img src="{{ current_user.avatar }}" alt="Avatar" class="user-avatar" onerror="this.src='{{ url_for('static', filename='img/default-avatar.png') }}'">
-                <span>{{ current_user.username }}</span>
-            </div>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+                
+                <div class="user-info">
+                    <img src="{{ current_user.avatar }}" alt="{{ current_user.username }}" class="user-avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <span>{{ current_user.username }}</span>
+                </div>
+            {% else %}
+                <a href="{{ url_for('discord_login') }}" class="btn btn-primary">
+                    <i class="fab fa-discord"></i> Connexion
+                </a>
+            {% endif %}
         </div>
-        {% endif %}
     </nav>
     
-    <main class="container fade-in">
+    <main class="container fade-in-up">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
@@ -41,8 +64,8 @@
         {% block content %}{% endblock %}
     </main>
     
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
